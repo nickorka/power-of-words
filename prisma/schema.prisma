@@ -1,0 +1,125 @@
+// Схема базы данных проекта «Заговорная традиция Древней Руси»
+// Образовательный веб-корпус народных целительных формул
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// Категория болезней (группа недугов)
+model Category {
+  id          String  @id @default(cuid())
+  slug        String  @unique
+  name        String
+  oldName     String?
+  icon        String?
+  description String
+  orderIndex  Int     @default(0)
+  charms      Charm[]
+}
+
+// Заговор (запись магической целительной формулы)
+model Charm {
+  id             String   @id @default(cuid())
+  slug           String   @unique
+  title          String
+  kind           String
+  purpose        String
+  summary        String
+  originalText   String
+  originalNote   String?
+  translation    String
+  linguisticNote String
+  historicalNote String
+  symbolicNote   String
+  structureParts String
+  keywords       String
+  region         String
+  period         String
+  era            String
+  dating         String
+  sourceRef      String
+  categoryId     String
+  category       Category @relation(fields: [categoryId], references: [id])
+  rituals        Ritual[]
+  orderIndex     Int      @default(0)
+  createdAt      DateTime @default(now())
+}
+
+// Символ заговорного мира
+model Symbol {
+  id           String @id @default(cuid())
+  slug         String @unique
+  name         String
+  shortMeaning String
+  description  String
+  orderIndex   Int    @default(0)
+}
+
+// Глоссарий терминов и архаизмов
+model GlossTerm {
+  id         String  @id @default(cuid())
+  term       String
+  definition String
+  example    String?
+  orderIndex Int     @default(0)
+}
+
+// Историческая эпоха (хронология традиции)
+model Era {
+  id          String @id @default(cuid())
+  years       String
+  title       String
+  description String
+  orderIndex  Int    @default(0)
+}
+
+// Источник (этнографический свод)
+model Source {
+  id          String @id @default(cuid())
+  author      String
+  title       String
+  year        String
+  description String
+  orderIndex  Int    @default(0)
+}
+
+// Обряд проведения заговора (ритуальная практика)
+model Ritual {
+  id           String @id @default(cuid())
+  slug         String @unique
+  name         String // «Шептание на воду»
+  kind         String // действие: лечение / присуха / отсуда / оберег
+  goal         String // цель: от какой хвори или нужды
+  summary      String // краткое описание для карточки
+  essence      String // суть обряда — подробный абзац
+  timeShort    String // кратко о времени для карточки
+  timeInfo     String // время проведения — подробное описание
+  placeShort   String // кратко о месте для карточки
+  placeInfo    String // место проведения — подробное описание
+  orientation  String // ориентация в пространстве, направление движения
+  actors       String // участники, позы, распределение ролей
+  objects      String // JSON: RitualObjectDTO[] { name, role, placement }
+  steps        String // JSON: RitualStepDTO[] { title, text }
+  completion   String // завершение обряда
+  prohibitions String // JSON: string[] — запреты и предостережения
+  charmId      String // заговор/шептание/заклинание, произносимое в обряде: каждый ритуал привязан к своему слову
+  charm        Charm  @relation(fields: [charmId], references: [id])
+  sourceRef    String
+  orderIndex   Int    @default(0)
+}
+
+// Правило ритуального канона (общие устои проведения обрядов)
+model RitualRule {
+  id         String @id @default(cuid())
+  slug       String @unique
+  title      String // «Время», «Место», «Предметы»…
+  glyph      String? // орнаментальный глиф
+  shortText  String // краткая суть правила
+  details    String // JSON: string[] — пункты правила
+  orderIndex Int    @default(0)
+}
