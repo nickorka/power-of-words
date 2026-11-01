@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import type { AppData, CharmDTO } from "@/lib/zagovory";
+import type { AppData, CharmDTO, ViewKey } from "@/lib/zagovory";
 import { OrnamentDivider, DiamondBand } from "./ornaments";
 import { HomeView } from "./views/home";
 import { CatalogView } from "./views/catalog";
@@ -14,7 +14,7 @@ import { ScrollText, BookOpen, FlaskConical, Eye, BookMarked, LibraryBig, Menu }
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet";
 
-export type ViewKey = "home" | "catalog" | "analysis" | "symbols" | "glossary" | "sources";
+export type { ViewKey };
 
 const NAV: { key: ViewKey; label: string; icon: React.ComponentType<{ className?: string }> }[] = [
   { key: "home", label: "Главная", icon: ScrollText },

@@ -1,5 +1,7 @@
 // Общие типы и хелперы проекта «Заговорная традиция Древней Руси»
 
+export type ViewKey = "home" | "catalog" | "analysis" | "symbols" | "glossary" | "sources";
+
 export interface CategoryDTO {
   id: string;
   slug: string;
@@ -102,6 +104,18 @@ export interface RitualEmbeddedDTO {
   prohibitions: string[];
   sourceRef: string;
 }
+
+// Псевдоним для диалога ритуала: структура вложенного ритуала
+// плюс лёгкая ссылка на «слово обряда» — сам привязанный заговор
+export type RitualDTO = RitualEmbeddedDTO & {
+  charm?: {
+    slug: string;
+    kind: string;
+    title: string;
+    purpose: string;
+    originalText: string;
+  };
+};
 
 export interface RitualRuleDTO {
   id: string;

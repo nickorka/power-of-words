@@ -103,7 +103,7 @@ export function CharmDialog({ charm, onClose }: { charm: CharmDTO | null; onClos
               </div>
               {charm.originalNote && (
                 <p className="text-xs text-muted-foreground mt-2 leading-relaxed">
-                  <span className="font-semibold text-foreground/70">О орфографии: </span>
+                  <span className="font-semibold text-foreground/70">Об орфографии: </span>
                   {charm.originalNote}
                 </p>
               )}
